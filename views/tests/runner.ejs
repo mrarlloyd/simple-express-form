@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>simple-express-form: Unit Tests</title>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.4.5/mocha.min.css" rel="stylesheet" />
+</head>
+
+<body>
+
+	<div id="mocha">
+		<div id="running-tests">
+			Running Tests ...
+		</div>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.4.5/mocha.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.min.js"></script>
+	<script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+	<script>
+		function callRoute(method, route, data, callback) {
+
+			if (!method || typeof method !== 'string') {
+				var method = 'get';
+			}
+
+			if (!route || typeof route !== 'string') {
+				var route = '/xxx/yyy/zzz';
+			}
+
+			if (!data || typeof data !== 'object') {
+				var data = {};
+			}
+
+			if (!callback || typeof callback !== 'function') {
+				var callback = function(result) {};
+			}
+
+			if (route.substring(0, 1) == '/') { // ltrim the lead slash; if any
+				route = route.substring(1);
+			}
+
+			$.ajax({
+					method: method,
+					url: 'http://127.0.0.1:3000/' + route,
+					data: data,
+					cache: false,
+					async: false,
+					xhrFields: {
+						withCredentials: true
+					}
+				})
+				.done(function(result) { // success
+					callback(result);
+				})
+				.fail(function() { // error
+					callback('error in fn() callRoute');
+				})
+				.always(function() { // complete
+					//callback('complete');
+				});
+		}
+
+		var assert = chai.assert,
+			expect = chai.expect,
+			should = chai.should();
+		mocha.setup('bdd');
+	</script>
+
+
+	<script src="./testRunners/_testCountryList.js"></script>
+	<script src="./testRunners/_testPersistence.js"></script>
+
+
+	<script>
+		mocha.run();
+		$('div#running-tests').hide();
+	</script>
+
+</body>
+
+</html>
