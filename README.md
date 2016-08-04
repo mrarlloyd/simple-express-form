@@ -3,16 +3,16 @@ A simple node.js demo using Express & MongoDB
 
 ## Execution
 After cloning this repository, run the following commands:
-...
+```
 npm install --production
 npm run simple-express-form
-...
+```
 then navigate to http://127.0.0.1:3000
 
 simple-express-form expects to connect to mongoDB locally, to change this, adjust the following line in /config/production.json:
-...
+```javascript
 "host": "mongodb://localhost:27017/nodetest"
-...
+```
 */nodetest* is the name of the target mongoDB database.
 
 ## Architecture
